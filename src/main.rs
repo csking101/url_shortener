@@ -6,7 +6,7 @@ const RADIX:u64 = 62;
 struct URLCreationDescription {
     pub long_url: String,
     pub rate_limit: Option<u64>,
-    pub permission_rule: String,
+    pub permission_rule: Option<String>,
 }
 
 // This struct is used for storing in the DB (this is the value of the global hashmap's key)
@@ -14,7 +14,7 @@ struct URLCreationDescription {
 struct URLStatusDescription {
     pub long_url: String,
     pub rate_limit: Option<u64>,
-    pub permission_rule: String,
+    pub permission_rule: Option<String>,
 }
 
 
@@ -23,16 +23,21 @@ impl URLCreationDescription {
         let mut short_url = String::new();
         let mut hash_result:u64 = 0;
 
-        if self.permission_rule.is_empty() {
-
-            for char in self.long_url.chars() {
-                hash_result += char as u64;
+        match &self.permission_rule {
+            Some(s) => {
+                //FIXME: Add support for permission rules
+                println!("The permission rule is {}",s);
+            },
+            None => {
+                for char in self.long_url.chars() {
+                    hash_result += char as u64;
+                }
+    
+                hash_result += self.rate_limit.unwrap();
             }
-
-            hash_result += self.rate_limit.unwrap();
-        } else {
-            // FIXME: Add support for permissions
         }
+
+      
 
         println!("{}",hash_result);
 
@@ -55,7 +60,7 @@ impl URLCreationDescription {
 fn main() {
     let long_url = "https://www.google.com/search?channel=fs&client=ubuntu-sn&q=meow+meow".to_string();
     let rate_limit = Some(5);
-    let permission_rule = "".to_string();
+    let permission_rule = None;
 
     let request = URLCreationDescription {
         long_url,
