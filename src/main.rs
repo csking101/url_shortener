@@ -17,12 +17,28 @@ struct URLStatusDescription {
     pub permission_rule: Option<String>,
 }
 
+fn get_shortened_url (mut hash_result:u64)-> String{
+    let mut short_url = String::new();
+
+    loop {
+        if hash_result == 0{
+            break;
+        }
+
+        let idx = (hash_result % RADIX) as usize;
+
+        short_url.push(ALPHANUMERIC.chars().nth(idx).unwrap());
+        hash_result /= RADIX;
+    }
+
+    short_url
+}
 
 impl URLCreationDescription {
     fn get_hash(&self) -> String{
-        let mut short_url = String::new();
         let mut hash_result:u64 = 0;
 
+        // Creates the numeric representation of the struct
         match &self.permission_rule {
             Some(s) => {
                 //FIXME: Add support for permission rules
@@ -37,22 +53,9 @@ impl URLCreationDescription {
             }
         }
 
-      
+        // println!("{}",hash_result);
 
-        println!("{}",hash_result);
-
-        loop {
-            if hash_result == 0{
-                break;
-            }
-
-            let idx = (hash_result % RADIX) as usize;
-
-            short_url.push(ALPHANUMERIC.chars().nth(idx).unwrap());
-            hash_result /= RADIX;
-        }
-
-        short_url
+        get_shortened_url(hash_result)
     }
 }
 
