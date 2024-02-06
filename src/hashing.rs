@@ -47,7 +47,7 @@ impl URLCreationDescription {
             },
             None => {
                 hash_result += self.long_url.chars().map(|c| c as u64).sum::<u64>();
-                hash_result += self.rate_limit.unwrap();
+                hash_result *= self.rate_limit.unwrap();
             }
         }
 
