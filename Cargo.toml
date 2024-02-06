@@ -8,4 +8,6 @@ edition = "2021"
 [dependencies]
 
 
-[exam]
+[[example]]
+name = "simple_hashing"
+path = "examples/simple_hashing.rs"
