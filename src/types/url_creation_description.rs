@@ -1,5 +1,7 @@
+use serde::{Serialize,Deserialize};
+
 // This struct is used for making the request
-#[derive(Debug)]
+#[derive(Debug,Serialize, Deserialize)]
 pub struct URLCreationDescription {
     pub long_url: String,
     pub rate_limit: Option<u64>,
