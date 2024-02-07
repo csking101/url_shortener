@@ -4,7 +4,7 @@ use std::io::Read;
 use std::io::Write;
 use std::path::Path;
 
-fn read_file(file_path:&String) -> String{
+fn read_file(file_path: &String) -> String {
     // Create a path to the desired file
     let path = Path::new(file_path);
     let display = path.display();
@@ -25,7 +25,7 @@ fn read_file(file_path:&String) -> String{
     s
 }
 
-fn write_file(file_path:&String, content:&String){
+fn write_file(file_path: &String, content: &String) {
     let path = Path::new(file_path);
     let display = path.display();
 
@@ -42,24 +42,26 @@ fn write_file(file_path:&String, content:&String){
     }
 }
 
-pub fn serialize_hashmap(map:&HashMap<String, crate::types::URLStatusDescription>) -> String{
+pub fn serialize_hashmap(map: &HashMap<String, crate::types::URLStatusDescription>) -> String {
     let serialized = serde_json::to_string(&map).unwrap();
 
-    println!("The serialized hashmap is {}",serialized);
+    println!("The serialized hashmap is {}", serialized);
 
     serialized
 }
 
-pub fn deserialize_to_hashmap(serialized_str:String) -> HashMap<String, crate::types::URLStatusDescription> {
+pub fn deserialize_to_hashmap(
+    serialized_str: String,
+) -> HashMap<String, crate::types::URLStatusDescription> {
     let deserialized = serde_json::from_str(&serialized_str).unwrap();
 
-    println!("The deserialized hashmap is {:?}",deserialized);
+    println!("The deserialized hashmap is {:?}", deserialized);
 
     deserialized
 }
 
-pub fn flush_hashmap(map:&HashMap<String, crate::types::URLStatusDescription>){
-    let file_path:String = "temp.txt".to_string();
+pub fn flush_hashmap(map: &HashMap<String, crate::types::URLStatusDescription>) {
+    let file_path: String = "temp.txt".to_string();
     let serialized = serialize_hashmap(map);
 
     write_file(&file_path, &serialized);
@@ -68,7 +70,7 @@ pub fn flush_hashmap(map:&HashMap<String, crate::types::URLStatusDescription>){
 }
 
 pub fn load_hashmap() -> HashMap<String, crate::types::URLStatusDescription> {
-    let file_path:String = "temp.txt".to_string();
+    let file_path: String = "temp.txt".to_string();
     let serialized_str = read_file(&file_path);
     let map = deserialize_to_hashmap(serialized_str);
 

@@ -16,3 +16,7 @@ path = "examples/simple_hashing.rs"
 [[example]]
 name = "storing_hashes"
 path = "examples/storing_hashes.rs"
+
+[[example]]
+name = "tcp_connection"
+path = "examples/tcp_connection.rs"
