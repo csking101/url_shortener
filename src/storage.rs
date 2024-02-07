@@ -19,7 +19,7 @@ fn read_file(file_path: &String) -> String {
     let mut s = String::new();
     match file.read_to_string(&mut s) {
         Err(why) => panic!("couldn't read {}: {}", display, why),
-        Ok(_) => print!("{} contains:\n{}", display, s),
+        Ok(_) => {} //print!("{} contains:\n{}", display, s),
     }
 
     s
@@ -38,14 +38,14 @@ fn write_file(file_path: &String, content: &String) {
     // Write the `LOREM_IPSUM` string to `file`, returns `io::Result<()>`
     match file.write_all(content.as_bytes()) {
         Err(why) => panic!("couldn't write to {}: {}", display, why),
-        Ok(_) => println!("successfully wrote to {}", display),
+        Ok(_) => {} //println!("successfully wrote to {}", display),
     }
 }
 
 pub fn serialize_hashmap(map: &HashMap<String, crate::types::URLStatusDescription>) -> String {
     let serialized = serde_json::to_string(&map).unwrap();
 
-    println!("The serialized hashmap is {}", serialized);
+    // println!("The serialized hashmap is {}", serialized);
 
     serialized
 }
@@ -55,7 +55,7 @@ pub fn deserialize_to_hashmap(
 ) -> HashMap<String, crate::types::URLStatusDescription> {
     let deserialized = serde_json::from_str(&serialized_str).unwrap();
 
-    println!("The deserialized hashmap is {:?}", deserialized);
+    // println!("The deserialized hashmap is {:?}", deserialized);
 
     deserialized
 }
@@ -66,7 +66,7 @@ pub fn flush_hashmap(map: &HashMap<String, crate::types::URLStatusDescription>) 
 
     write_file(&file_path, &serialized);
 
-    println!("Flushed hashmap");
+    // println!("Flushed hashmap");
 }
 
 pub fn load_hashmap() -> HashMap<String, crate::types::URLStatusDescription> {
