@@ -28,11 +28,7 @@ fn handle_connection(mut stream: TcpStream) {
     let req_type = &http_request[0];
 
     if req_type.starts_with("GET") {
-        let long_url = route_redirection::handle_get(&http_request);
-
-        let status_line = "HTTP/1.1 301 Moved Permanently";
-        let response = format!("{status_line}\r\nLocation: {long_url}\r\n\r\n");
-
+        let response = route_redirection::handle_get(&http_request);
         stream.write_all(response.as_bytes()).unwrap();
     } else if req_type.starts_with("POST") {
         route_creation::handle_post(&http_request)
