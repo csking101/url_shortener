@@ -12,26 +12,29 @@ pub fn handle_post(http_request: &Vec<String>) -> String {
         .strip_prefix('/')
         .unwrap(); //Gets the key for map
 
-    // println!("{:?}",http_request);
-
     let mut map = crate::storage::load_hashmap();
 
-    if map.contains_key(path) {
-        //If already present, don't overwrite
-        println!("There is a conflict");
-        "HTTP/1.1 409 Conflict\r\n\r\n".to_string()
-    } else {
+    if "create_short_url" == path {
         let json_string = http_request.iter().rev().next().unwrap();
-        // println!("{:#?}",json_string);
-        let creation_description:URLCreationDescription = serde_json::from_str(&json_string).unwrap();
-        // println!("{:#?}",parsed_string);
+
+        let creation_description: URLCreationDescription =
+            serde_json::from_str(&json_string).unwrap();
+
         let (short_url, status_description) = creation_description.create_url_status_description();
 
-        map.insert(short_url, status_description);
+        if map.contains_key(&short_url) {
+            //If already present, don't overwrite
+            println!("There is a conflict");
+            "HTTP/1.1 409 Conflict\r\n\r\n".to_string()
+        } else {
+            map.insert(short_url, status_description);
 
-        crate::storage::flush_hashmap(&map);
+            crate::storage::flush_hashmap(&map);
 
-        println!("Route was created!");
-        "HTTP/1.1 201 Created\r\n\r\n".to_string()
+            println!("Route was created!");
+            "HTTP/1.1 201 Created\r\n\r\n".to_string()
+        }
+    } else {
+        "HTTP/1.1 400 Bad Request\r\n\r\n".to_string()
     }
 }

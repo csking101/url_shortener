@@ -18,12 +18,7 @@ pub fn run_server() {
 fn handle_connection(mut stream: TcpStream) {
     let mut buf_reader = BufReader::new(&mut stream);
 
-    let http_request:Vec<_> = buf_reader
-        .lines()
-        .map(|result| result.unwrap())
-        // .take_while(|line| !line.is_empty())
-        .collect();
-    // println!("{:?}", http_request);
+    let http_request: Vec<_> = buf_reader.lines().map(|result| result.unwrap()).collect();
 
     let req_type = &http_request[0];
 
