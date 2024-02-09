@@ -18,10 +18,10 @@ pub fn run_server() {
 fn handle_connection(mut stream: TcpStream) {
     let mut buf_reader = BufReader::new(&mut stream);
 
-    let http_request: Vec<_> = buf_reader
+    let http_request:Vec<_> = buf_reader
         .lines()
         .map(|result| result.unwrap())
-        .take_while(|line| !line.is_empty())
+        // .take_while(|line| !line.is_empty())
         .collect();
     // println!("{:?}", http_request);
 
@@ -31,7 +31,8 @@ fn handle_connection(mut stream: TcpStream) {
         let response = route_redirection::handle_get(&http_request);
         stream.write_all(response.as_bytes()).unwrap();
     } else if req_type.starts_with("POST") {
-        route_creation::handle_post(&http_request)
+        let response = route_creation::handle_post(&http_request);
+        stream.write_all(response.as_bytes()).unwrap();
     } else {
     }
 }

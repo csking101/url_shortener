@@ -1,1 +1,1 @@
-{"EMU5oA8jf":{"long_url":"https://www.google.com/search?channel=fs&client=ubuntu-sn&q=meow+meow","rate_limit":500000000000,"permission_rule":null}}
+{"IKkmrVYzr":{"long_url":"https://www.google.com/search?channel=fs&client=ubuntu-sn&q=woof+woof","rate_limit":900000000000,"permission_rule":null}}

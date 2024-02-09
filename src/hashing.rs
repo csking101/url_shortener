@@ -1,4 +1,4 @@
-use crate::types::URLCreationDescription;
+use crate::types::{URLCreationDescription, URLStatusDescription};
 
 static ALPHANUMERIC: &'static str =
     "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -38,5 +38,16 @@ impl URLCreationDescription {
         }
 
         get_shortened_url(hash_result)
+    }
+
+    pub fn create_url_status_description(&self) -> (String,URLStatusDescription){
+        let short_url = self.get_hash();
+        let status_struct = URLStatusDescription {
+            long_url: self.long_url.clone(),
+            rate_limit: self.rate_limit,
+            permission_rule: self.permission_rule.clone(),
+        };
+
+        (short_url,status_struct)
     }
 }

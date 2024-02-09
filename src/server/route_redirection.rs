@@ -13,10 +13,10 @@ pub fn handle_get(http_request: &Vec<String>) -> String {
     if (map.contains_key(path)) {
         let long_url = map[path].long_url.clone();
         let status_line = "HTTP/1.1 301 Moved Permanently";
+        println!("Valid GET request!");
         format!("{status_line}\r\nLocation: {long_url}\r\n\r\n")
     } else {
+        println!("Invalid GET request!");
         "HTTP/1.1 404 Not Found\r\n\r\n".to_string()
     }
-
-    // response
 }

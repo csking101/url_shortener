@@ -52,8 +52,8 @@ pub fn serialize_hashmap(map: &HashMap<String, crate::types::URLStatusDescriptio
 
 pub fn deserialize_to_hashmap(
     serialized_str: String,
-) -> HashMap<String, crate::types::URLStatusDescription> {
-    let deserialized = serde_json::from_str(&serialized_str).unwrap();
+) -> Result<HashMap<String, crate::types::URLStatusDescription>,serde_json::Error> {
+    let deserialized: Result<_, serde_json::Error> = serde_json::from_str(&serialized_str);
 
     // println!("The deserialized hashmap is {:?}", deserialized);
 
@@ -74,5 +74,13 @@ pub fn load_hashmap() -> HashMap<String, crate::types::URLStatusDescription> {
     let serialized_str = read_file(&file_path);
     let map = deserialize_to_hashmap(serialized_str);
 
-    map
+    match map {
+        Ok(map) => {
+            map
+        },
+        Err(err) => {
+            let mut map:HashMap<String, crate::types::URLStatusDescription> = HashMap::new();
+            map
+        }
+    }
 }
