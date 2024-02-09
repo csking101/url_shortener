@@ -10,9 +10,9 @@ pub fn handle_get(http_request: &Vec<String>) -> String {
 
     let map = crate::storage::load_hashmap();
 
-    if (map.contains_key(path)) {
+    if map.contains_key(path) {
         let long_url = map[path].long_url.clone();
-        let status_line = "HTTP/1.1 301 Moved Permanently";
+        let status_line = "HTTP/1.1 302 Found";
         println!("Valid GET request!");
         format!("{status_line}\r\nLocation: {long_url}\r\n\r\n")
     } else {
