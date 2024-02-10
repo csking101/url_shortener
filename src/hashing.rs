@@ -37,10 +37,8 @@ impl URLCreationDescription {
                 match self.rate_limit {
                     Some(rate_limit) => {
                         hash_result += rate_limit;
-                    },
-                    None => {
-
                     }
+                    None => {}
                 }
             }
         }

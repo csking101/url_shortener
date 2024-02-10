@@ -3,7 +3,7 @@ use std::{
     net::{TcpListener, TcpStream},
 };
 
-use crate::server::{route_creation, route_redirection};
+use crate::server::{route_creation, route_deletion, route_redirection};
 
 pub fn run_server() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
@@ -46,6 +46,8 @@ fn handle_connection(mut stream: TcpStream) {
 
         let response = route_creation::handle_post(&http_request, payload);
         stream.write_all(response.as_bytes()).unwrap();
-    } else {
+    } else if req_type.starts_with("DELETE") {
+        let response = route_deletion::handle_delete(&http_request);
+        stream.write_all(response.as_bytes()).unwrap();
     }
 }
