@@ -2,7 +2,7 @@ use std::{io::BufReader, net::TcpStream};
 
 use crate::types::URLCreationDescription;
 
-pub fn handle_post(http_request: &Vec<String>) -> String {
+pub fn handle_post(http_request: &Vec<String>, payload: String) -> String {
     //The post route will just help the user post once, not update
 
     let path = *&http_request[0]
@@ -15,10 +15,7 @@ pub fn handle_post(http_request: &Vec<String>) -> String {
     let mut map = crate::storage::load_hashmap();
 
     if "create_short_url" == path {
-        let json_string = http_request.iter().rev().next().unwrap();
-
-        let creation_description: URLCreationDescription =
-            serde_json::from_str(&json_string).unwrap();
+        let creation_description: URLCreationDescription = serde_json::from_str(&payload).unwrap();
 
         let (short_url, status_description) = creation_description.create_url_status_description();
 
